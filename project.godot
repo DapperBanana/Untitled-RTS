@@ -14,13 +14,9 @@ _global_script_class_icons={
 
 [application]
 
-config/name="3drts3"
+config/name="Untitled RTS"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
-
-[display]
-
-window/size/fullscreen=true
 
 [input]
 
