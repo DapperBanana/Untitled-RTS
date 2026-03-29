@@ -1,4 +1,4 @@
-# Untitled-RTS Development Plan
+## Untitled-RTS Development Plan
 
 ## Current Phase: Core Mechanics Prototype
 
@@ -9,7 +9,7 @@
 - [x] Unit scene with movement toward target
 - [x] Click selection (single unit, shift-add)
 - [x] Right-click move command
-- [ ] Drag box selection
+- [x] Drag box selection
 - [ ] Multiple unit formation movement
 - [ ] Unit spawning from a building
 - [ ] Health bars / unit UI
@@ -23,13 +23,4 @@
 - Units self-register into "units" group on _ready
 
 ### Next Steps
-- Implement drag-to-select box (screen-space rect → frustum test)
-- Offset move targets so multiple units don't stack
-- Add a simple HUD showing selection count
-
-### Future Phases
-- Resource gathering
-- Building placement
-- Basic AI opponent
-- Fog of war
-- Minimap
+- Implement multiple unit formation movement
