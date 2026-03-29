@@ -16,7 +16,7 @@ func _unhandled_input(event):
 			else:
 				drag_end = event.position
 				dragging = false
-				#TODO: selection logic based on drag rect	
+				select_units_in_drag_rect()	
 
 func _process(_delta):
 	if dragging:
@@ -42,3 +42,14 @@ func deselect_all():
 	for unit in selected_units:
 		unit.set_selected(false)
 	selected_units.clear()
+
+func select_units_in_drag_rect():
+	var rect = Rect2(drag_start, drag_end - drag_start).abs()
+	var units = get_tree().get_nodes_in_group("units")
+	
+	deselect_all()
+	
+	for unit in units:
+		var viewport_pos = camera.unproject_position(unit.global_position)
+		if rect.has_point(viewport_pos):
+			select_unit(unit)
