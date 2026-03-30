@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgw5q1855h2h1"]
+
+[ext_resource type="Script" path="res://unit/unit.gd" id="1_2k886"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i14i4"]
+
+[node name="Unit" type="CharacterBody3D"]
+script = ExtResource("1_2k886")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_i14i4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="SelectionIndicator" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SelectionIndicator"]
+visible = false
+light_color = Color(0.490196, 0.839216, 0.984314, 1)
