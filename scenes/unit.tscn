@@ -1,36 +1,26 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://unit"]
 
-[ext_resource type="Script" path="res://scripts/unit.gd" id="1_unit"]
+[ext_resource type="Script" path="res://scripts/unit.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://health_bar" path="res://scenes/ui/health_bar.tscn" id="2"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
-radius = 0.3
-height = 1.0
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1"]
+radius = 0.35
+height = 1.4
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
-albedo_color = Color(0.2, 0.4, 0.8, 1)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_col"]
-radius = 0.3
-height = 1.0
-
-[sub_resource type="TorusMesh" id="TorusMesh_ring"]
-inner_radius = 0.4
-outer_radius = 0.55
-rings = 16
-ring_segments = 16
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.35
+height = 1.4
 
 [node name="Unit" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("1_unit")
+script = ExtResource("1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_body")
-surface_material_override/0 = SubResource("StandardMaterial3D_body")
+mesh = SubResource("CapsuleMesh_1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_col")
+shape = SubResource("CapsuleShape3D_1")
 
-[node name="SelectionRing" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+[node name="SelectionIndicator" type="Node3D" parent="."]
 visible = false
-mesh = SubResource("TorusMesh_ring")
+
+[node name="HealthBar" parent="." instance=ExtResource("2")]
