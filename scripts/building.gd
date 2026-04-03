@@ -1,47 +1,43 @@
 extends StaticBody3D
 
 @export var unit_scene: PackedScene
-@export var spawn_cooldown: float = 2.0
-
-var spawn_queue: int = 0
-var cooldown_timer: float = 0.0
+@export var rally_point_scene: PackedScene
 
 @onready var spawn_point: Marker3D = $SpawnPoint
-@onready var rally_point: Marker3D = $RallyPoint
 
+var _selected: bool = false
+var _rally_position: Vector3
+var _current_rally_marker: Node3D = null
 
 func _ready() -> void:
+	add_to_group("buildings")
+	_rally_position = spawn_point.global_position
+
+
+func set_selected(value: bool) -> void:
+	_selected = value
+	# visual feedback hook — extend per building type
+
+
+func spawn_unit() -> void:
 	if unit_scene == null:
-		unit_scene = preload("res://scenes/unit.tscn")
-
-
-func _process(delta: float) -> void:
-	if spawn_queue <= 0:
 		return
-
-	cooldown_timer -= delta
-	if cooldown_timer <= 0.0:
-		_spawn_unit()
-		spawn_queue -= 1
-		cooldown_timer = spawn_cooldown
-
-
-func queue_unit(count: int = 1) -> void:
-	spawn_queue += count
-	if cooldown_timer <= 0.0:
-		cooldown_timer = 0.1
+	var unit = unit_scene.instantiate()
+	get_parent().add_child(unit)
+	unit.global_position = spawn_point.global_position
+	unit.move_to(_rally_position)
 
 
 func set_rally_point(world_pos: Vector3) -> void:
-	rally_point.global_position = world_pos
+	_rally_position = world_pos
 
+	if _current_rally_marker != null and is_instance_valid(_current_rally_marker):
+		_current_rally_marker.queue_free()
 
-func _spawn_unit() -> void:
-	var unit = unit_scene.instantiate()
-	get_tree().current_scene.add_child(unit)
-	unit.global_position = spawn_point.global_position
-	# Send newly spawned unit toward rally point
-	if unit.has_method("move_to"):
-		unit.move_to(rally_point.global_position)
-	else:
-		unit.target_position = rally_point.global_position
+	if rally_point_scene == null:
+		return
+
+	var marker = rally_point_scene.instantiate()
+	get_parent().add_child(marker)
+	marker.set_rally_position(world_pos)
+	_current_rally_marker = marker
