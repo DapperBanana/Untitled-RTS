@@ -1,50 +1,51 @@
 extends CharacterBody3D
 
-@export var move_speed: float = 8.0
-@export var arrival_threshold: float = 0.3
+@export var speed: float = 5.0
+@export var max_health: float = 100.0
 
-var _move_target: Vector3 = Vector3.ZERO
-var _has_target: bool = false
-var selected: bool = false:
-	set(value):
-		selected = value
-		_update_selection_visual()
+@onready var selection_indicator: Node3D = $SelectionIndicator
+@onready var health_bar: Node3D = $HealthBar
+
+var _target: Vector3 = Vector3.ZERO
+var _moving: bool = false
+var _selected: bool = false
+var _health: float
+
+const ARRIVAL_THRESHOLD := 0.25
 
 func _ready() -> void:
-	_move_target = global_position
 	add_to_group("units")
+	_health = max_health
+	set_selected(false)
+
 
 func _physics_process(delta: float) -> void:
-	if not _has_target:
-		return
-
-	var direction := (_move_target - global_position)
-	direction.y = 0.0
-	var distance := direction.length()
-
-	if distance < arrival_threshold:
-		_has_target = false
-		velocity = Vector3.ZERO
-		return
-
-	direction = direction.normalized()
-	velocity = direction * move_speed
-
-	# Face movement direction
-	var look_target := global_position + direction
-	look_target.y = global_position.y
-	if global_position.distance_to(look_target) > 0.01:
-		var new_basis := Basis.looking_at(direction, Vector3.UP)
-		basis = basis.slerp(new_basis, 10.0 * delta)
-
+	if _moving:
+		var diff := _target - global_position
+		diff.y = 0.0
+		if diff.length() < ARRIVAL_THRESHOLD:
+			_moving = false
+			velocity = Vector3.ZERO
+		else:
+			velocity = diff.normalized() * speed
+			velocity.y = 0.0
 	move_and_slide()
 
-func command_move(target: Vector3) -> void:
-	_move_target = target
-	_move_target.y = 0.0
-	_has_target = true
 
-func _update_selection_visual() -> void:
-	var ring := get_node_or_null("SelectionRing")
-	if ring:
-		ring.visible = selected
+func move_to(pos: Vector3) -> void:
+	_target = pos
+	_moving = true
+
+
+func set_selected(value: bool) -> void:
+	_selected = value
+	if selection_indicator:
+		selection_indicator.visible = value
+
+
+func take_damage(amount: float) -> void:
+	_health = maxf(_health - amount, 0.0)
+	if health_bar:
+		health_bar.set_percent(_health / max_health)
+	if _health <= 0.0:
+		queue_free()
