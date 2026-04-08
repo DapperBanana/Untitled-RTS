@@ -1,0 +1,16 @@
+shader_type spatial;
+render_mode unshaded, shadows_disabled;
+
+uniform bool selected : source_asset_updated;
+uniform vec4 highlight_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+void fragment() {
+	vec4 albedo = texture(TEXTURE, UV);
+
+	// Apply a highlight effect when selected.
+	if (selected) {
+		ALBEDO = highlight_color.rgb;
+	} else {
+		ALBEDO = albedo.rgb;
+	}
+}
