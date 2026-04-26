@@ -1,24 +1,40 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene]
+extends = Node
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
-size = Vector2(100, 100)
+[node name="Main" type="Node"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
-albedo_color = Color(0.25, 0.45, 0.2, 1)
+[node name="CameraPivot" type="Node3D" parent="."]
 
-[sub_resource type="WorldEnvironment" id="WorldEnvironment_1"]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 30, 20)
+size = Vector2(20, 20)
 
-[node name="Main" type="Node3D"]
+[node name="Map" type="Node3D" parent="."]
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="MeshInstance3D" parent="Map"]
+mesh = PlaneMesh(200, 200)
+surface_material_override/0 = SubResource("StandardMaterial3D_a1vso")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("PlaneMesh_ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ground")
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Ground"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = BoxShape3D.new()
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Ground/StaticBody3D"]
+shape = BoxShape3D(Vector3(100, 1, 100))
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707, 0.707, 0, -0.707, 0.707, 0, 20, 20)
-shadow_enabled = true
+[node name="Units" type="Node" parent="."]
+
+[node name="Buildings" type="Node" parent="."]
+
+[node name="SelectionBox" type="ColorRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.14902, 0.45098, 0.839216, 0.360784)
+
+[node name="Minimap" parent="." instance=ExtResource("3_vx8f1")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[resource type="StandardMaterial3D" id="StandardMaterial3D_a1vso"]
+albedo_color = Color(0.160784, 0.498039, 0.219608, 1)
+
+[ext_resource type="PackedScene" path="res://scenes/minimap.tscn" id="3_vx8f1"]
