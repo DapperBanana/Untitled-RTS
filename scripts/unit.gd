@@ -1,51 +1,30 @@
 extends CharacterBody3D
 
-@export var speed: float = 5.0
-@export var max_health: float = 100.0
+@export var move_speed = 5.0
+@export var rotation_speed = 20
 
-@onready var selection_indicator: Node3D = $SelectionIndicator
-@onready var health_bar: Node3D = $HealthBar
+var target_position = global_position
+var is_selected = false
 
-var _target: Vector3 = Vector3.ZERO
-var _moving: bool = false
-var _selected: bool = false
-var _health: float
+@export var minimap
 
-const ARRIVAL_THRESHOLD := 0.25
+func _ready():
+	minimap = get_tree().get_root().get_node("Main/Minimap")
+	minimap.add_unit(self)
 
-func _ready() -> void:
-	add_to_group("units")
-	_health = max_health
-	set_selected(false)
+func _physics_process(delta):
 
+	if global_position.distance_to(target_position) > 0.1:
+		var direction = (target_position - global_position).normalized()
+		velocity = direction * move_speed
+		look_at(target_position, Vector3.UP)
+		rotation.x = 0
+		rotation.z = 0
+	else:
+		velocity = Vector3.ZERO
+		
+	var tween = create_tween()
+	
+tween.tween_property(self, "rotation", rotation, 0.1)
 
-func _physics_process(delta: float) -> void:
-	if _moving:
-		var diff := _target - global_position
-		diff.y = 0.0
-		if diff.length() < ARRIVAL_THRESHOLD:
-			_moving = false
-			velocity = Vector3.ZERO
-		else:
-			velocity = diff.normalized() * speed
-			velocity.y = 0.0
 	move_and_slide()
-
-
-func move_to(pos: Vector3) -> void:
-	_target = pos
-	_moving = true
-
-
-func set_selected(value: bool) -> void:
-	_selected = value
-	if selection_indicator:
-		selection_indicator.visible = value
-
-
-func take_damage(amount: float) -> void:
-	_health = maxf(_health - amount, 0.0)
-	if health_bar:
-		health_bar.set_percent(_health / max_health)
-	if _health <= 0.0:
-		queue_free()
