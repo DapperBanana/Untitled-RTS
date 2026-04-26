@@ -16,4 +16,4 @@
 - [x] Rally point visualization
 - [x] Building selection highlight
 - [x] Unit death / removal cleanup
-- [ ] Minimap or unit count HUD
+- [x] Minimap or unit count HUD
