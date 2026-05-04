@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://duxyngjmx8j48"]
+
+[ext_resource type="Script" path="res://src/Main.gd" id="1_w98lc"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_w98lc")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 0)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = PlaneMesh(20, 20)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = BoxShape3D(20, 0.1, 20)
+
+[node name="SelectionBox" type="MeshInstance3D" parent="."]
+
+[node name="Minimap" type="SubViewportContainer" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 162.0
+offset_bottom = 162.0
+
+[node name="SubViewport" type="SubViewport" parent="Minimap"]
+handle_input_locally = false
+gizmo_enabled = false
+size = Vector2i(152, 152)
+transparent_bg = true
+
+[node name="MinimapCamera" type="Camera3D" parent="Minimap/SubViewport"]
+
+[node name="UnitCountLabel" type="Label" parent="."]
+offset_left = 10.0
+offset_top = 180.0
+offset_right = 150.0
+offset_bottom = 206.0
+text = "Units: 0"
