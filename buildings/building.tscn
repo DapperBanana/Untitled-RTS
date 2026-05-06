@@ -1,24 +1,11 @@
-[gd_scene]
-extends StaticBody3D
+[gd_scene load_steps=2 format=3 uid="uid://bx3z3725c22j"]
 
-[sub_resource type = BoxShape3D id = 1]
-
-[sub_resource type = ShaderMaterial id = 2]
-shader/shader = ExtResource("2_mbwbu")
-shader/selected = false
+[ext_resource type="Script" path="res://buildings/building.gd" id="1_bml6k"]
 
 [node name="Building" type="StaticBody3D"]
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("1_t8c8c")
-rally_point_scene = ExtResource("3_w4pqy")
-unit_scene = ExtResource("4_jd18c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("1")
+script = ExtResource("1_bml6k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("2")
+mesh = PrimitiveMesh.new()
 
-[node name="UnitSpawnPoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
