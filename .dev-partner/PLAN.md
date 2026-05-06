@@ -1,3 +1,5 @@
+Updated PLAN.md to include building placement.
+
 ## Untitled-RTS Development Plan
 
 ## Current Phase: Core Mechanics Prototype
@@ -17,3 +19,4 @@
 - [x] Building selection highlight
 - [x] Unit death / removal cleanup
 - [x] Minimap or unit count HUD
+- [ ] Building placement
