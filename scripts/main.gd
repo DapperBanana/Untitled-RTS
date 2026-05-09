@@ -93,7 +93,7 @@ func place_building(mouse_pos):
 
 	if not result.is_empty() and result.collider == ground:
 		var building = building_scene.instantiate()
-		building.global_position = result.position
+		building.global_position = result.position + Vector3(0, building.get_node("MeshInstance3D").mesh.size().y / 2, 0)
 		add_child(building)
 		buildings.append(building)
 		var minimap = find_child("Minimap")
