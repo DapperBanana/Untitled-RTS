@@ -96,6 +96,9 @@ func place_building(mouse_pos):
 		building.global_position = result.position
 		add_child(building)
 		buildings.append(building)
+		var minimap = find_child("Minimap")
+		if minimap:
+			minimap.add_building_icon(building)
 
 func spawn_unit(building_position):
 	var unit = unit_scene.instantiate()
