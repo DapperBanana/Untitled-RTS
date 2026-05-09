@@ -91,7 +91,7 @@ func place_building(mouse_pos):
 	query.to = to
 	var result = space_state.intersect_ray(query)
 
-	if not result.is_empty():
+	if not result.is_empty() and result.collider == ground:
 		var building = building_scene.instantiate()
 		building.global_position = result.position
 		add_child(building)
