@@ -1,27 +1,9 @@
-extends StaticBody
+extends StaticBody3D
 
-export var cost = 100
+@export var unit_scene: PackedScene
+@export var spawn_point: Node3D
 
-var selected = false : set = set_selected
-
-onready var highlight_shader = $MeshInstance.material_override
-
-func _ready():
-	highlight_shader.set_shader_parameter("active", false)
-
-func _on_input_event(camera, event, position, normal, shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		select()
-
-func select():
-	get_tree().call_group("units", "deselect")
-	get_tree().call_group("buildings", "deselect")
-	selected = true
-
-func deselect():
-	selected = false
-
-func set_selected(new_selected):
-	selected = new_selected
-	if is_instance_valid(highlight_shader):
-		highlight_shader.set_shader_parameter("active", new_selected)
+func spawn_unit():
+	var unit = unit_scene.instantiate()
+	get_tree().root.add_child(unit)
+	unit.global_position = spawn_point.global_position
