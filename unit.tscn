@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bnq3lwn4w1bqp"]
+[gd_scene load_steps=4 format=3 uid="uid://bnq3lwn4w1bqp"]
 
 [ext_resource type="Script" path="res://unit.gd" id="1_gkqkx"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_p1v36"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lkqj5"]
 
 [node name="Unit" type="CharacterBody3D"]
 script = ExtResource("1_gkqkx")
@@ -15,3 +17,5 @@ mesh = SubResource("CylinderMesh_p1v36")
 [node name="SelectionIndicator" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SelectionIndicator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_lkqj5")
