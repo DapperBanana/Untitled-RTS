@@ -1,25 +1,30 @@
 extends CharacterBody3D
 
 @export var move_speed = 4.0
-@export var health = 100
+var target_position = global_position
+var selected = false
 
-var target_position : Vector3 = position
+@onready var selection_indicator = $SelectionIndicator
+
+func _ready():
+	selection_indicator.visible = false
 
 func _physics_process(delta):
-	if position.distance_to(target_position) > 0.1:
-		var direction = (target_position - position).normalized()
+	var direction = (target_position - global_position).normalized()
+	if global_position.distance_to(target_position) > 0.1:
 		velocity = direction * move_speed
-		move_and_slide()
 	else:
 		velocity = Vector3.ZERO
+	velocity.y = 0 # Ensure no vertical movement
+	move_and_slide()
 
 func set_target(position):
 	target_position = position
 
-func take_damage(damage):
-	health -= damage
-	if health <= 0:
-		die()
+func select():
+	selected = true
+	selection_indicator.visible = true
 
-func die():
-	queue_free()
+func deselect():
+	selected = false
+	selection_indicator.visible = false
