@@ -1,1 +1,1 @@
-Updated PLAN.md to include unit selection highlight.
+Added camera controls to plan
