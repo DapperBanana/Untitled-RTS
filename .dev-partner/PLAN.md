@@ -1,1 +1,1 @@
-Added camera controls to plan
+Added unit movement, selection to plan
