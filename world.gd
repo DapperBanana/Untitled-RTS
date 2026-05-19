@@ -18,8 +18,11 @@ func handle_left_click():
 	query.to = ray_origin + ray_direction * 1000
 	var result = space_state.intersect_ray(query)
 
-	if result and selected_unit != null:
-		selected_unit.set_target(result.position)
+	if result:
+		if result.collider.is_in_group("Units"):
+			set_selected_unit(result.collider)
+		elif selected_unit != null:
+			selected_unit.set_target(result.position)
 
 
 func set_selected_unit(unit):
