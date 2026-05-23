@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://da33x0q8i38qf"]
+
+[ext_resource type="Script" path="res://scripts/Unit.gd" id="1_g1owg"]
+[ext_resource type="Texture2D" uid="uid://dqt54w3qxh0v7" path="res://assets/unit.png" id="2_e1b6n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f5j8f"]
+radius = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1vww"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 1, 0.12549, 1)
+
+[node name="Unit" type="CharacterBody2D"]
+script = ExtResource("1_g1owg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_e1b6n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_f5j8f")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="SelectionIndicator" type="Panel" parent="."]
+offset_left = -25.0
+offset_top = -41.0
+offset_right = 26.0
+offset_bottom = -6.0
+scale = Vector2(0.6, 0.6)
+theme_override_styles/panel = SubResource("StyleBoxFlat_k1vww")
+visible = false
