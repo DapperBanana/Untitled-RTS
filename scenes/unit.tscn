@@ -1,26 +1,41 @@
-[gd_scene load_steps=5 format=3 uid="uid://unit"]
+[gd_scene load_steps=7 format=3 uid="uid://dtrq3g7h2x62o"]
 
-[ext_resource type="Script" path="res://scripts/unit.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://health_bar" path="res://scenes/ui/health_bar.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/unit.gd" id="1_byy4m"]
+[ext_resource type="Material" uid="uid://dh35b20t84rvy" path="res://resources/selection_material.tres" id="2_ay6yv"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_1"]
-radius = 0.35
-height = 1.4
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_f5ob7"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
-radius = 0.35
-height = 1.4
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xjf3i"]
 
-[node name="Unit" type="CharacterBody3D"]
-script = ExtResource("1")
+[sub_resource type="Label3D" id="Label3D_w2q0x"]
+text = "Unit"
+billboard = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kx7lg"]
+
+[node name="Unit" type="CharacterBody3D" groups=["unit"]]
+script = ExtResource("1_byy4m")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_1")
+mesh = SubResource("CapsuleMesh_f5ob7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_1")
+shape = SubResource("CapsuleShape3D_xjf3i")
 
-[node name="SelectionIndicator" type="Node3D" parent="."]
+[node name="SelectionIndicator" type="MeshInstance3D" parent="."]
 visible = false
+material_override = ExtResource("2_ay6yv")
+mesh = SubResource("CapsuleMesh_f5ob7")
 
-[node name="HealthBar" parent="." instance=ExtResource("2")]
+[node name="Label3D" type="Label3D" parent="."]
+offset = Vector3(0, 1, 0)
+text = "Unit"
+billboard = 1
+
+[node name="TooltipArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TooltipArea"]
+shape = SubResource("BoxShape3D_kx7lg")
+
+[connection signal="mouse_entered" from="TooltipArea" to="." method="_on_tooltip_area_mouse_entered"]
+[connection signal="mouse_exited" from="TooltipArea" to="." method="_on_tooltip_area_mouse_exited"]

@@ -1,30 +1,27 @@
 extends CharacterBody3D
 
-@export var move_speed = 5.0
-@export var rotation_speed = 20
+@onready var selection_indicator = $SelectionIndicator
+@onready var label_3d = $Label3D
 
+var speed = 3
 var target_position = global_position
-var is_selected = false
-
-@export var minimap
-
-func _ready():
-	minimap = get_tree().get_root().get_node("Main/Minimap")
-	minimap.add_unit(self)
+var selected = false
 
 func _physics_process(delta):
-
-	if global_position.distance_to(target_position) > 0.1:
-		var direction = (target_position - global_position).normalized()
-		velocity = direction * move_speed
-		look_at(target_position, Vector3.UP)
-		rotation.x = 0
-		rotation.z = 0
-	else:
-		velocity = Vector3.ZERO
-		
-	var tween = create_tween()
-	
-tween.tween_property(self, "rotation", rotation, 0.1)
-
+	var direction = (target_position - global_position).normalized()
+	velocity = direction * speed
 	move_and_slide()
+
+func move_to(position):
+	target_position = position
+
+func set_selected(is_selected):
+	selected = is_selected
+	selection_indicator.visible = is_selected
+
+func _on_tooltip_area_mouse_entered():
+	label_3d.visible = true
+
+
+func _on_tooltip_area_mouse_exited():
+	label_3d.visible = false
