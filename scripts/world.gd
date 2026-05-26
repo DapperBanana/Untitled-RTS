@@ -8,6 +8,11 @@ var pan_speed = 5.0
 
 var selected_units = []
 
+var ray = PhysicsRayQueryParameters3D.new()
+
+func _ready():
+	ray.collide_with_bodies = true
+
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -36,10 +41,8 @@ func handle_unit_selection(mouse_position):
 	var space_state = get_world_3d().direct_space_state
 	var camera_position = camera.project_position(Vector2(mouse_position.x, mouse_position.y), 0)
 	var mouse_position_far = camera.project_position(Vector2(mouse_position.x, mouse_position.y), 1000)
-	var ray = PhysicsRayQueryParameters3D.new()
 	ray.from = camera_position
 	ray.to = mouse_position_far
-	ray.collide_with_bodies = true
 
 	var result = space_state.intersect_ray(ray)
 
@@ -64,10 +67,8 @@ func handle_unit_movement(mouse_position):
 	var space_state = get_world_3d().direct_space_state
 	var camera_position = camera.project_position(Vector2(mouse_position.x, mouse_position.y), 0)
 	var mouse_position_far = camera.project_position(Vector2(mouse_position.x, mouse_position.y), 1000)
-	var ray = PhysicsRayQueryParameters3D.new()
 	ray.from = camera_position
 	ray.to = mouse_position_far
-	ray.collide_with_bodies = true
 
 	var result = space_state.intersect_ray(ray)
 
