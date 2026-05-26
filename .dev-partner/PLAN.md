@@ -1,2 +1,3 @@
-Updated unit selection to include shift-click group selection
-Fixed a bug where the selection indicator was not toggling correctly
+- Added right-click movement functionality
+- Added tooltips on hover for units
+- Prevented unit movement when clicking on other units
