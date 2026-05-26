@@ -73,5 +73,8 @@ func handle_unit_movement(mouse_position):
 	var result = space_state.intersect_ray(ray)
 
 	if not result.is_empty():
-		for unit in selected_units:
-			unit.move_to(result.position)
+		var collider = result.collider
+
+		if not collider.is_in_group("unit"):
+			for unit in selected_units:
+				unit.move_to(result.position)
