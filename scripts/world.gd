@@ -9,8 +9,11 @@ var pan_speed = 5.0
 var selected_units = []
 
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		handle_unit_selection(event.position)
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			handle_unit_selection(event.position)
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			handle_unit_movement(event.position)
 
 	if event is InputEventMouseWheel:
 		camera.position.y += event.delta.y * zoom_speed
@@ -56,7 +59,18 @@ func handle_unit_selection(mouse_position):
 					unit.set_selected(false)
 				selected_units = [collider]
 				collider.set_selected(true)
-		else:
-			for unit in selected_units:
-				unit.move_to(result.position)
 
+func handle_unit_movement(mouse_position):
+	var space_state = get_world_3d().direct_space_state
+	var camera_position = camera.project_position(Vector2(mouse_position.x, mouse_position.y), 0)
+	var mouse_position_far = camera.project_position(Vector2(mouse_position.x, mouse_position.y), 1000)
+	var ray = PhysicsRayQueryParameters3D.new()
+	ray.from = camera_position
+	ray.to = mouse_position_far
+	ray.collide_with_bodies = true
+
+	var result = space_state.intersect_ray(ray)
+
+	if not result.is_empty():
+		for unit in selected_units:
+			unit.move_to(result.position)
