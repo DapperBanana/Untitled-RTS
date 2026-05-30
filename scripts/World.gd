@@ -52,10 +52,16 @@ func _input(event):
 
 		var result = space_state.intersect_ray(query)
 
-		if result:
-			var target_position = result.position
+		if result and result.collider is Unit:
+			var target_unit = result.collider
 			if selected_units.size() > 0:
-				move_units_in_formation(target_position)
+				for unit in selected_units:
+					unit.attack(target_unit)
+		else:
+			if result:
+				var target_position = result.position
+				if selected_units.size() > 0:
+					move_units_in_formation(target_position)
 
 func move_units_in_formation(target_position):
 	if selected_units.size() == 1:
