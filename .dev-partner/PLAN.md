@@ -1,3 +1,2 @@
-- Added right-click movement functionality
-- Added tooltips on hover for units
-- Prevented unit movement when clicking on other units
+- Implemented formation movement logic
+- Added attack-move functionality
