@@ -80,6 +80,7 @@ func move_units_in_formation(target_position):
 			if i < unit_count:
 				var unit = selected_units[i]
 				var offset = Vector3(x + start_x, 0, z + start_z) * 2  # Spacing of 2 units
-				var target_pos = target_position + offset
+				# Calculate the target position relative to the center of the formation
+				var target_pos = target_position + offset - center
 				unit.move_to(target_pos)
 				i += 1				
