@@ -62,11 +62,6 @@ func move_units_in_formation(target_position):
 		selected_units[0].move_to(target_position)
 		return
 
-	var center = Vector3.ZERO
-	for unit in selected_units:
-		center += unit.global_position
-	center /= selected_units.size()
-
 	var unit_count = selected_units.size()
 	var formation_width = int(sqrt(unit_count))
 	var formation_height = (unit_count + formation_width - 1) / formation_width
@@ -81,6 +76,10 @@ func move_units_in_formation(target_position):
 				var unit = selected_units[i]
 				var offset = Vector3(x + start_x, 0, z + start_z) * 2  # Spacing of 2 units
 				# Calculate the target position relative to the center of the formation
-				var target_pos = target_position + offset - center
+				var target_pos = target_position + offset
+
+				# Calculate the desired final offset FROM the target, not the origin
+				var formation_center = Vector3(formation_width / 2.0 + start_x, 0, formation_height / 2.0 + start_z) * 2
+				target_pos -= formation_center # Subtract from the target position
 				unit.move_to(target_pos)
 				i += 1				
