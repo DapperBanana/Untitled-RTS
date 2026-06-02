@@ -1,2 +1,3 @@
 - Implemented formation movement logic
 - Added attack-move functionality
+- Implemented unit stances (Aggressive, Defensive, Passive)
